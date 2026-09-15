@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+config/*
+logs/*
+work/
+dist/
+start.sh
+admin-start.sh

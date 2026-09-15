@@ -51,23 +51,23 @@ Das Netzwerkicon und die blaue Info-Wolke stammen aus der vorhandenen persönlic
 
 ## Detailabfragen
 
-Links die gewünschte Detailkategorie auswählen. Adapter-/DHCP-Daten, ethtool-Statistiken, PCI, DNS, IPv6, Policy Routing, Firewall, VLAN/Bridge/Bond, virtuelle Netze, Protokollzähler, Kernelparameter, QoS, WLAN, Bluetooth und benannte Namespaces werden lokal gelesen. Prozessdaten und Firewall-Regeln hängen von den Rechten des gestarteten Benutzers ab. Nicht verfügbare Angaben werden nicht geschätzt.
+Im Menü Kategorien die gewünschte Detailkategorie auswählen. Adapter-/DHCP-Daten, ethtool-Statistiken, PCI, DNS, IPv6, Policy Routing, Firewall, VLAN/Bridge/Bond, virtuelle Netze, Protokollzähler, Kernelparameter, QoS, WLAN, Bluetooth und benannte Namespaces werden lokal gelesen. Prozessdaten und Firewall-Regeln hängen von den Rechten des gestarteten Benutzers ab. Nicht verfügbare Angaben werden nicht geschätzt.
 
 **Verbindungen** ergänzt die Dienste um aktive TCP-/UDP-Sockets mit PID, Benutzer und Programmdatei. Nachbarn erhalten Cache-Details und vorhandene lokale Hosts-/OUI-Zuordnungen. Unter **Verbindungstests** können Ping, Namensauflösung und Tracepath ausdrücklich gestartet werden (20 Sekunden Zeitlimit). Ziel selbst eingeben; diese Tests können Netzwerkverkehr senden. Die vollständige Diagnose-CSV enthält alle zusätzlichen Daten und Statusangaben.
 
 Optionale Programme: `lspci`, `resolvectl`, `sysctl`, `bridge`, `tc`, `nft`, `ufw`, `iw`, `bluetoothctl`, `ping`, `getent`, `tracepath`; Docker/Podman nur falls installiert, ausschließlich lokal. Die deutsche und englische HTML-Hilfe beschreibt Voraussetzungen und Grenzen.
 
-Die Bereichsauswahl mit 3D-Icons steht links, die Ergebnisse rechts. Die Breite der Seitenleiste ist über die Trennlinie verstellbar.
+Die Bereichsauswahl befindet sich im Menü Kategorien; die Ergebnisse nutzen die Fensterbreite.
 
 ## Live-Daten und zusätzliche Detailabfragen (1.3.0)
 
-Links **Live-Daten** für sekündliche RX/TX-Raten in Bytes/s, Paketen/s und Fehlern/s auswählen. Eigene Kategorien bieten TCP-Qualität, LLDP, Connection Tracking und VPN-Erkennung; NIC-Details ergänzen Kanäle, RSS und Timestamping. nftables-Zähler erscheinen, soweit konfiguriert. Optionale Werkzeuge: lldpcli, conntrack, wg. Rechte und laufende lokale Dienste bestimmen die Verfügbarkeit. Die HTML-Hilfe beschreibt Grenzen und Messverfahren.
+Im Kategorienmenü **Live-Daten** für sekündliche RX/TX-Raten in Bytes/s, Paketen/s und Fehlern/s auswählen. Eigene Kategorien bieten TCP-Qualität, LLDP, Connection Tracking und VPN-Erkennung; NIC-Details ergänzen Kanäle, RSS und Timestamping. nftables-Zähler erscheinen, soweit konfiguriert. Optionale Werkzeuge: lldpcli, conntrack, wg. Rechte und laufende lokale Dienste bestimmen die Verfügbarkeit. Die HTML-Hilfe beschreibt Grenzen und Messverfahren.
 
 Bekannte Geräte erhalten automatisch Namen über `/etc/hosts` und `getent` (lokale NSS-/DNS-/mDNS-Konfiguration). Diese begrenzte Namensauflösung kann Netzwerkverkehr erzeugen.
 
 ## Bereichsauswahl (1.3.0)
 
-24 Kategorien in fünf Themengruppen ersetzen die bisherige Sammelauswahl Erweitert. Die Menüeinträge werden ohne Icons angezeigt. Links hilft die Bereichssuche beim Auffinden einer Kategorie. Die obere Suche filtert deren Ergebnisse; Tabellenköpfe bleiben fixiert. CSV v2 verwendet feste technische Feldkennungen; der Vollbericht erhält zusätzlich die einzelnen Nachbarbeobachtungen.
+24 Kategorien in fünf Themengruppen ersetzen die bisherige Sammelauswahl Erweitert. Die Menüeinträge werden ohne Icons angezeigt. Im Kategorienmenü hilft die Bereichssuche beim Auffinden einer Kategorie. Die obere Suche filtert deren Ergebnisse; Tabellenköpfe bleiben fixiert. CSV v2 verwendet feste technische Feldkennungen; der Vollbericht erhält zusätzlich die einzelnen Nachbarbeobachtungen.
 
 Optionale ethtool-Detailabfragen: Nicht unterstützte Funktionen und „No data available“ erscheinen neutral. Fehlende Werkzeuge, Zugriffsfehler und Zeitüberschreitungen bleiben Warnungen. Beim nächsten Programmstart wird das Protokoll wie oben beschrieben zurückgesetzt.
 
@@ -96,3 +96,9 @@ Technische Grundlagen: [iproute2-Nachbarcache](https://github.com/iproute2/iprou
 Das Menü **Kategorien** bündelt die 24 Ansichten in fünf Gruppen mit Suche. Die Ergebnisansicht nutzt die gesamte Breite. **Hilfe → Logs anzeigen** öffnet das aktuelle Sitzungsprotokoll schreibgeschützt mit Aktualisieren. IS107 meldet eine fehlende, nicht lesbare oder ungültig kodierte Logdatei.
 
 Die fünf Gruppen im Kategorienmenü sind separat aufklappbar und anfangs geschlossen. Die Suche öffnet passende Gruppen vorübergehend.
+
+## Downloads
+
+- [Quellcodepaket 1.4.4](downloads/ipSnoop-1.4.4-quellcode.zip)
+- [Kompilierte Ausgabe für Python 3.12](downloads/ipSnoop-1.4.4-python3.12-kompiliert.tar.gz)
+- [SHA256-Prüfsummen](downloads/ipSnoop-1.4.4-SHA256SUMS.txt)
