@@ -12,11 +12,12 @@ import gi
 os.environ.setdefault('GSK_RENDERER','cairo')
 gi.require_version('Gtk','4.0')
 from gi.repository import Gtk,Gio,GLib,Gdk
-from . import ROOT,VERSION
+from . import ROOT,VERSION,DATA_ROOT
 from .scanner import Scanner
 from .extended import GROUPS,diagnostic
 from .live import Rates
 from .packages import missing_packages,connected
+from .downloads import AVAILABLE,install_language,default_download_dir
 from .config import Translator,load,save,logger
 
 
@@ -403,18 +404,55 @@ class Window(Gtk.ApplicationWindow):
 
     def settings_dialog(self):
         self.tr.reload();t=self.tr
-        dialog=Gtk.Dialog(title=t('settings'),transient_for=self,modal=True)
+        dialog=Gtk.Dialog(title=t('settings'),transient_for=self,modal=True,default_width=600)
         dialog.add_button(t('cancel'),Gtk.ResponseType.CANCEL);dialog.add_button(t('save'),Gtk.ResponseType.OK)
         box=dialog.get_content_area();box.set_spacing(12)
         for side in ('top','bottom','start','end'):getattr(box,'set_margin_'+side)(18)
-        languages=Gtk.ComboBoxText();codes=list(self.tr.catalogs)
-        for code in codes:languages.append(code,self.tr.catalogs[code].get('language.name',code))
-        if len(codes)>1:
-            box.append(self.label(t('language')));box.append(languages);languages.set_active_id(t.language)
+        languages=Gtk.ComboBoxText();codes=[]
+        language_label=self.label(t('language'));box.append(language_label);box.append(languages)
+        def update_languages(selected=None):
+            self.tr.reload();codes[:]=list(self.tr.catalogs);languages.remove_all()
+            for code in codes:languages.append(code,self.tr.catalogs[code].get('language.name',code))
+            languages.set_active_id(selected if selected in codes else t.language)
+            language_label.set_visible(len(codes)>1);languages.set_visible(len(codes)>1)
+        update_languages()
         interval=Gtk.ComboBoxText()
         for seconds in (0,5,10,30):interval.append(str(seconds),t('manual') if not seconds else t('seconds',count=seconds))
         interval.set_active_id(str(self.settings['interval']));box.append(self.label(t('interval')));box.append(interval)
+        box.append(self.label(t('download_languages')))
+        hint=self.label(t('download_hint',path=str(default_download_dir())),True)
+        hint.set_max_width_chars(64);box.append(hint)
+        download_row=Gtk.Box(spacing=8);box.append(download_row)
+        available=Gtk.ComboBoxText()
+        for code,name in AVAILABLE.items():available.append(code,name)
+        available.set_active_id(t.language if t.language in AVAILABLE else 'en');download_row.append(available)
+        download=Gtk.Button(label=t('download'));download_row.append(download)
+        result=self.label('',True);result.set_max_width_chars(64);box.append(result)
+        downloading=[False]
+        def start_download(*_):
+            code=available.get_active_id();downloading[0]=True
+            download.set_sensitive(False);available.set_sensitive(False)
+            dialog.set_response_sensitive(Gtk.ResponseType.OK,False)
+            result.remove_css_class('success');result.set_text(t('download_busy'))
+            future=self.executor.submit(install_language,code)
+            def complete():
+                try:
+                    count=future.result();error=None
+                except Exception as exc:
+                    error=exc;logger().error('IS108: %s: %s',code,exc)
+                downloading[0]=False
+                if self.closed or not dialog.get_visible():return False
+                download.set_sensitive(True);available.set_sensitive(True)
+                dialog.set_response_sensitive(Gtk.ResponseType.OK,True)
+                if error:result.set_text('IS108: '+t('IS108'))
+                else:
+                    update_languages(code)
+                    result.add_css_class('success');result.set_text(t('download_done',count=count))
+                return False
+            future.add_done_callback(lambda *_:GLib.idle_add(complete))
+        download.connect('clicked',start_download)
         def done(d,response):
+            if response==Gtk.ResponseType.OK and downloading[0]:return
             if response==Gtk.ResponseType.OK:
                 self.settings['language']=languages.get_active_id() if len(codes)>1 else t.language
                 self.tr.language=self.settings['language'];self.settings['interval']=int(interval.get_active_id())
@@ -439,7 +477,7 @@ class Window(Gtk.ApplicationWindow):
         scroll=Gtk.ScrolledWindow(hexpand=True,vexpand=True);scroll.set_child(view);box.append(scroll)
         def reload_log():
             try:
-                content=(ROOT/'logs/errors.log').read_text(encoding='utf-8')
+                content=(DATA_ROOT/'logs/errors.log').read_text(encoding='utf-8')
                 view.get_buffer().set_text(content or t('logs_empty'))
             except (OSError,UnicodeError):
                 view.get_buffer().set_text('IS107: '+t('IS107'))
@@ -450,7 +488,7 @@ class Window(Gtk.ApplicationWindow):
         dialog.connect('response',respond);reload_log();dialog.present()
 
     def show_help(self):
-        path=ROOT/'help'/(self.tr.language+'.html')
+        path=DATA_ROOT/'help'/(self.tr.language+'.html')
         try:
             if '<html' not in path.read_text(encoding='utf-8').lower():raise ValueError()
             Gio.AppInfo.launch_default_for_uri(path.as_uri(),self.get_display().get_app_launch_context())

@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
-from . import ROOT
+from . import DATA_ROOT as ROOT,register_data_file
 
 
 def logger(reset=False):
@@ -26,6 +26,7 @@ def logger(reset=False):
         try:
             folder=ROOT/'logs';folder.mkdir(exist_ok=True)
             path=folder/'errors.log'
+            for name in ('errors.log','errors.log.1','errors.log.2'):register_data_file(folder/name)
             if reset:
                 path.write_text('',encoding='utf-8')
                 for name in ('errors.log.1','errors.log.2'):
@@ -66,6 +67,7 @@ def load():
 
 def save(data):
     folder=ROOT/'config';folder.mkdir(exist_ok=True)
+    for item in ('settings.json','visibility.json'):register_data_file(folder/item)
     fd,name=tempfile.mkstemp(dir=folder,prefix='.settings-')
     try:
         with os.fdopen(fd,'w',encoding='utf-8') as stream:
