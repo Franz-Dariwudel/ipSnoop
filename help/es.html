@@ -1,0 +1,86 @@
+<!doctype html><html lang="es" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ipSnoop 1.5.0</title><style>body{max-width:76em;margin:2em auto;padding:0 1em;line-height:1.6}pre,code{direction:ltr;unicode-bidi:isolate}pre{white-space:pre-wrap}dt{font-weight:bold;margin-top:1em}h2{margin-top:1.7em}</style></head><body><h1>ipSnoop 1.5.0</h1>
+<p>ipSnoop lee datos locales de Linux sin modificar la configuración de red. Los vecinos y redes Wi-Fi proceden de cachés existentes: no es un descubrimiento completo de dispositivos ni una captura de paquetes. En una máquina virtual se muestran los datos del invitado. La resolución automática de nombres puede enviar consultas DNS/mDNS.</p>
+<h2>Categorías</h2>
+<p>El menú Categorías reúne 24 vistas en cinco grupos independientes. Se abren y cierran por separado y no tienen iconos. La búsqueda abre los grupos coincidentes; al borrarla se restaura el estado anterior. La búsqueda superior filtra resultados. Los encabezados permanecen visibles al desplazarse. Actualizar obtiene datos nuevos en segundo plano. Los adaptadores desconectados se ocultan inicialmente; los estados desconocidos y los errores siguen visibles. Cero es un valor válido.</p>
+<ul><li>Dispositivos y radio</li><li>Direcciones y rutas</li><li>Conexiones y protección</li><li>Supervisión y diagnóstico</li><li>Sistema</li></ul>
+<h2>Ajustes</h2>
+<p>Editar → Ajustes permite elegir idioma y actualización manual o cada 5, 10 o 30 segundos. Se guardan en config/settings.json; la visibilidad se guarda también en config/visibility.json. Los archivos languages/&lt;code&gt;.json deben ser JSON UTF-8 con claves y valores de texto. Se detectan al abrir Ajustes, sin reiniciar. Falta de texto: inglés como respaldo. Un único idioma válido se selecciona automáticamente. La ayuda se busca solo en help/&lt;code&gt;.html del idioma seleccionado y se vuelve a detectar al abrirla.</p>
+<pre dir="ltr">languages/de.json · languages/en.json · languages/es.json · languages/fr.json
+languages/pt.json · languages/zh.json · languages/hi.json · languages/ar.json
+languages/ru.json · languages/tr.json
+
+{&quot;language.name&quot;: &quot;Español&quot;, &quot;refresh&quot;: &quot;Actualizar&quot;}</pre>
+<h2>Sistema</h2>
+<p>Se requiere Linux Mint, Python 3.10+, GTK 4.8+ y PyGObject. El paquete compilado necesita exactamente Python 3.12; no es un programa nativo independiente. Descomprima el paquete e instálelo en una carpeta vacía con los comandos siguientes. installation.json registra los archivos instalados. La desinstalación elimina los archivos registrados y directorios propios vacíos; conserva los archivos personales creados después. Consulte README.md, LICENSE y resources/HERKUNFT.md.</p>
+<pre dir="ltr">python3 -m ipsnoop
+python3 -m ipsnoop --help
+python3 -m ipsnoop --version
+python3 -m ipsnoop --check
+python3 -m ipsnoop --scan
+python3 install.py --directory /path/to/empty/folder
+python3 /path/to/empty/folder/install.py --uninstall
+python3 -m unittest discover -s tests
+python3 build.py</pre>
+<p>--scan devuelve JSON sin interfaz gráfica: código de salida 0 si detecta adaptadores, 1 si no. --check comprueba recursos. --help y --version no vacían los registros. Los comandos no modifican la configuración de red. JSON y CSV pueden contener datos personales.</p>
+<pre dir="ltr">python3-gi · gir1.2-gtk-4.0 · iproute2 (ip, ss, bridge, tc)
+network-manager (nmcli) · ethtool · pciutils (lspci)
+systemd-resolved (resolvectl) · procps (sysctl) · nftables · ufw
+bluez (bluetoothctl) · iw · iputils-ping · iputils-tracepath
+lldpd (lldpcli) · conntrack · wireguard-tools (wg)</pre>
+<h2>Avanzado</h2>
+<p>Las vistas muestran NIC/DHCP, DNS, IPv6, reglas, VLAN, puentes, interfaces virtuales, cortafuegos, estadísticas, QoS, Wi-Fi, Bluetooth y espacios de nombres. DHCP y tiempos de concesión solo se muestran cuando se notifican. IPv6 auto puede ser SLAAC y no demuestra DHCPv6. ethtool consulta modos, colas, RSS, marcas de tiempo y contadores según el controlador. La velocidad de enlace no es velocidad de Internet; no se estima el máximo ausente. Las identidades PCI proceden de lspci o del ID exacto, nunca del nombre del controlador.</p>
+<p>TCP muestra RTT, RTO, cwnd y retransmisiones según ss -ti. LLDP consulta un servicio existente, no inicia descubrimiento. conntrack lee conexiones y contadores. WireGuard muestra claves públicas, extremos y transferencias, nunca claves privadas. Un túnel o una interfaz TUN/PPP/XFRM no demuestra cifrado; un enlace antiguo no demuestra fallo. Bluetooth separa hardware, servicio y controlador; no busca nuevos dispositivos. Solo se consultan espacios de nombres accesibles y Docker/Podman locales, si están instalados.</p>
+<p>Sockets TCP/UDP locales. Sin permisos de administrador pueden faltar detalles de procesos. Un puerto local no siempre es accesible desde la red.</p>
+<p>Sin controlador BlueZ utilizable. Puede faltar hardware o estar asignado a una VM.</p>
+<h2>Dispositivos conocidos</h2>
+<p>Caché de vecinos agrupada por MAC, conservando IPv4/IPv6 e interfaces. Sin MAC utilizable, las entradas permanecen separadas. El indicador de router procede del núcleo; su ausencia no prueba incapacidad de enrutamiento. STALE no significa desconectado.</p>
+<p>Los nombres se leen primero de /etc/hosts y luego con getent/NSS. Hasta 16 direcciones por actualización, cuatro consultas paralelas y 1,5 segundos por consulta. Caché positiva: cinco minutos; negativa: un minuto. Sin PTR/mDNS puede no haber nombre. Los proveedores MAC proceden de bases OUI locales; no se descarga ninguna. MAC locales o repetidas no prueban identidad. used, confirmed y updated son segundos desde cada evento; router:null representa un indicador activado.</p>
+<h2>Redes Wi-Fi</h2>
+<p>Redes conocidas de la caché de NetworkManager. No inicia un nuevo escaneo Wi-Fi. SIGNAL indica la intensidad relativa en porcentaje.</p>
+<h2>Pruebas de conexión</h2>
+<p>Estas pruebas generan tráfico solo al pulsar Ejecutar prueba. Introduzca IP o nombre. La resolución puede usar DNS/mDNS. Ping: 4 paquetes; ruta: máximo 12 saltos; límite: 20 segundos.</p>
+<p>Destino o prueba inválidos. No se ejecuta la prueba. Introduzca una IP o nombre sin espacios, opciones ni ID de zona IPv6.</p>
+<h2>Datos en vivo</h2>
+<p>Muestreo pasivo con intervalo real, hora UTC y mínimos/máximos de los últimos 60 segundos. RX = recepción, TX = envío. La utilización requiere velocidad física conocida. La primera muestra y los reinicios no dan tasa. No mide la velocidad de Internet.</p>
+<p>Los contadores son acumulativos desde un reinicio de hora desconocida. A partir de 10.000 descartes RX aparece un aviso de revisión, no un diagnóstico de avería. El muestreo se hace cada segundo con el intervalo real. Pausar, cambiar interfaz o reiniciar contadores exige otra referencia. La utilización solo se calcula con velocidad física conocida. Las consultas ethtool no admitidas se muestran de forma neutral; errores de permisos y tiempos agotados siguen registrados. No se instala software ni se elevan permisos automáticamente.</p>
+<p>Los contadores de Linux y del controlador pueden medir eventos distintos o solapados. Compare los valores; no los sume.</p>
+<h2>Tablas de rutas</h2>
+<p>Rutas predeterminadas IPv4/IPv6 de la tabla principal, ordenadas por métrica. Las reglas, preferencias y rutas múltiples pueden cambiar la ruta real para cada destino.</p>
+<h2>Parámetros de red del núcleo</h2>
+<p>Mostrar todos los parámetros de red del núcleo</p>
+<pre dir="ltr">net.ipv4.ip_forward
+net.ipv6.conf.all.forwarding
+net.ipv4.conf.all.rp_filter
+net.ipv4.tcp_syncookies
+net.ipv4.tcp_congestion_control
+net.ipv4.tcp_mtu_probing
+net.ipv6.conf.all.disable_ipv6
+net.ipv6.conf.all.accept_ra
+net.mptcp.enabled
+net.netfilter.nf_conntrack_max</pre>
+<h2>Guardar informe …</h2>
+<p>El CSV estándar incluye resumen, tiempos, adaptadores, vecinos, rutas, sockets, datos en vivo, observaciones y diez parámetros centrales del núcleo. El CSV completo conserva todos los detalles recogidos. TXT es un resumen. La selección no depende del filtro de búsqueda. CSV v2 usa section;entry;field;value con identificadores técnicos estables. La anonimización usa seudónimos IP/MAC solo dentro del informe y elimina nombres, SSID e identificadores de máquina y procesos. Algunos rasgos técnicos siguen reconocibles: revise antes de publicar.</p>
+<p>Las direcciones se sustituyen por identificadores. Se eliminan nombres, datos de procesos y texto diagnóstico libre. Los datos locales no cambian.</p>
+<h2>Mostrar registros</h2>
+<p>Registro de la sesión actual (logs/errors.log). Actualizar lee mensajes nuevos. El siguiente inicio del programa vacía el registro.</p>
+<p>La vista del registro es de solo lectura. Actualizar vuelve a leerlo; Cerrar cierra la ventana. Una entrada vacía se indica expresamente. Al iniciar interfaz, --scan o --check se vacía errors.log y se eliminan errors.log.1 y errors.log.2. Los mensajes nuevos permanecen durante toda la sesión. Un archivo ausente o UTF-8 inválido muestra IS107; otras funciones siguen disponibles. Si no se puede escribir, los errores aparecen en el terminal.</p>
+<h2>Avisos</h2>
+<p>Cada aviso incluye el código y la acción afectada. Datos ausentes no se estiman y una consulta fallida no demuestra que un servicio esté desactivado. Corrija la causa indicada y vuelva a actualizar. Los fallos de un recurso opcional permiten continuar; sin Python/GTK no arranca la interfaz. Los errores de exportación, instalación o prueba impiden esa acción. La configuración dañada usa valores predeterminados sin sobrescribir el archivo.</p>
+<dl>
+<dt>IS001</dt><dd>Instale Python 3.10+, python3-gi y GTK 4.8+.</dd>
+<dt>IS101</dt><dd>No se puede abrir o vaciar el registro. Compruebe los permisos de logs/ y errors.log. Los errores aparecen en el terminal.</dd>
+<dt>IS102</dt><dd>No se pudieron leer o guardar los ajustes. Compruebe config/settings.json y los permisos. Si falla la lectura, se usan valores predeterminados.</dd>
+<dt>IS103</dt><dd>Falta una traducción o no es válida. Restaure el archivo JSON UTF-8 con claves y valores de texto.</dd>
+<dt>IS105</dt><dd>La ayuda del idioma seleccionado falta o no se puede abrir. Compruebe help/&lt;code&gt;.html y el navegador predeterminado.</dd>
+<dt>IS106</dt><dd>Falta un icono o está dañado. Restaure resources/ desde el paquete.</dd>
+<dt>IS107</dt><dd>No se puede leer logs/errors.log. Compruebe que exista, sus permisos de lectura y la codificación UTF-8; después actualice.</dd>
+<dt>IS201</dt><dd>Falta una herramienta. ip/ss: iproute2; nmcli: network-manager; ethtool: ethtool. Sus datos quedan vacíos.</dd>
+<dt>IS202</dt><dd>La consulta falló o agotó el tiempo. Compruebe el dispositivo, el servicio y los permisos. Otros datos siguen disponibles.</dd>
+<dt>IS203</dt><dd>La consulta devolvió datos inválidos o demasiado grandes. Compruebe la versión de la herramienta y actualice.</dd>
+<dt>IS204</dt><dd>Destino o prueba inválidos. No se ejecuta la prueba. Introduzca una IP o nombre sin espacios, opciones ni ID de zona IPv6.</dd>
+<dt>IS299</dt><dd>Error inesperado al recopilar datos. Revise logs/ y actualice.</dd>
+<dt>IS301</dt><dd>No se pudo guardar el informe. Compruebe el destino, el espacio libre y los permisos de escritura.</dd>
+<dt>IS401</dt><dd>Falló la instalación o desinstalación. Compruebe la ruta indicada y los permisos; repita la operación.</dd>
+</dl>
+<p>GPL-3.0-only · Josef Lehner</p>
+<p><a href="https://dogtruck.eu">dogtruck.eu</a></p></body></html>

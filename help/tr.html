@@ -1,0 +1,86 @@
+<!doctype html><html lang="tr" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ipSnoop 1.5.0</title><style>body{max-width:76em;margin:2em auto;padding:0 1em;line-height:1.6}pre,code{direction:ltr;unicode-bidi:isolate}pre{white-space:pre-wrap}dt{font-weight:bold;margin-top:1em}h2{margin-top:1.7em}</style></head><body><h1>ipSnoop 1.5.0</h1>
+<p>ipSnoop, ağ ayarlarını değiştirmeden yerel Linux verilerini okur. Komşu ve Wi-Fi listeleri mevcut önbelleklerden gelir; tam aygıt keşfi, paket yakalama veya etkin ağ taraması değildir. Sanal makinede konuk verileri gösterilir. Otomatik ad çözümleme DNS/mDNS sorguları gönderebilir.</p>
+<h2>Kategoriler</h2>
+<p>Kategoriler menüsü, ayrı açılıp kapanan beş grupta 24 görünüm içerir; menü simgeleri yoktur. Arama eşleşen grupları açar; temizlenince önceki durum geri gelir. Üst arama sonuçları süzer. Kaydırırken sütun başlıkları görünür kalır. Yenile, verileri arka planda okur. Bağlı olmayan bağdaştırıcılar başlangıçta gizlidir; bilinmeyen durumlar ve hatalar görünürdür. Sıfır geçerli bir değerdir.</p>
+<ul><li>Aygıtlar ve kablosuz</li><li>Adresleme ve yönlendirme</li><li>Bağlantılar ve koruma</li><li>İzleme ve tanılama</li><li>Sistem</li></ul>
+<h2>Ayarlar</h2>
+<p>Düzenle → Ayarlar bölümünde dili ve elle ya da 5, 10, 30 saniyede bir yenilemeyi seçin. Ayarlar config/settings.json, görünürlük ayrıca config/visibility.json içinde saklanır. languages/&lt;code&gt;.json, metin anahtarları ve değerleri içeren UTF-8 JSON olmalıdır. Ayarlar açıldığında dosyalar yeniden başlatma olmadan algılanır. Eksik metinlerde İngilizce kullanılır. Tek geçerli dil otomatik seçilir. Yardım her açılışta yalnızca seçilen dilin help/&lt;code&gt;.html dosyasını arar; başka dile geçmez.</p>
+<pre dir="ltr">languages/de.json · languages/en.json · languages/es.json · languages/fr.json
+languages/pt.json · languages/zh.json · languages/hi.json · languages/ar.json
+languages/ru.json · languages/tr.json
+
+{&quot;language.name&quot;: &quot;Türkçe&quot;, &quot;refresh&quot;: &quot;Yenile&quot;}</pre>
+<h2>Sistem</h2>
+<p>Linux Mint, Python 3.10+, GTK 4.8+ ve PyGObject gerekir. Derlenmiş paket Python 3.12 gerektirir; bağımsız yerel çalıştırılabilir program değildir. Paketi açıp aşağıdaki komutlarla boş klasöre kurun. installation.json kurulan dosyaları kaydeder. Kaldırma bu dosyaları ve boş kurulum klasörlerini siler; sonradan oluşturulan kişisel dosyaları korur. README.md, LICENSE ve resources/HERKUNFT.md dosyalarına bakın.</p>
+<pre dir="ltr">python3 -m ipsnoop
+python3 -m ipsnoop --help
+python3 -m ipsnoop --version
+python3 -m ipsnoop --check
+python3 -m ipsnoop --scan
+python3 install.py --directory /path/to/empty/folder
+python3 /path/to/empty/folder/install.py --uninstall
+python3 -m unittest discover -s tests
+python3 build.py</pre>
+<p>--scan, grafik arayüz olmadan JSON üretir: bağdaştırıcı bulunursa çıkış kodu 0, yoksa 1. --check kaynakları denetler. --help ve --version günlükleri temizlemez. Komutlar ağ ayarlarını değiştirmez. JSON ve CSV kişisel veri içerebilir.</p>
+<pre dir="ltr">python3-gi · gir1.2-gtk-4.0 · iproute2 (ip, ss, bridge, tc)
+network-manager (nmcli) · ethtool · pciutils (lspci)
+systemd-resolved (resolvectl) · procps (sysctl) · nftables · ufw
+bluez (bluetoothctl) · iw · iputils-ping · iputils-tracepath
+lldpd (lldpcli) · conntrack · wireguard-tools (wg)</pre>
+<h2>Gelişmiş</h2>
+<p>Görünümler NIC/DHCP, DNS, IPv6, kurallar, VLAN, köprüler, sanal arayüzler, güvenlik duvarı, istatistikler, QoS, Wi-Fi, Bluetooth ve ad alanlarını kapsar. DHCP ve kira süreleri yalnızca bildirildiğinde gösterilir. IPv6 auto, SLAAC olabilir; DHCPv6 kanıtı değildir. ethtool, sürücü desteğine göre modları, kuyrukları, RSS, zaman damgası ve sayaçları okur. Bağlantı hızı İnternet hızı değildir; eksik en yüksek değer tahmin edilmez. PCI modeli lspci veya tam kimlikten gelir, sürücü adından çıkarılmaz.</p>
+<p>TCP, ss -ti tarafından bildirilen RTT, RTO, cwnd ve yeniden iletimleri gösterir. LLDP mevcut hizmeti sorgular, keşif başlatmaz. conntrack bağlantı ve sayaçları okur. WireGuard ortak anahtarları, uçları, el sıkışmaları ve aktarımları gösterir; özel anahtarları asla okumaz. Tünel veya TUN/PPP/XFRM şifreleme kanıtı değildir; eski el sıkışma arıza kanıtı değildir. Bluetooth donanımı, hizmeti ve denetleyiciyi ayırır; keşif yapmaz. Yalnızca erişilebilir adlandırılmış alanlar ve kurulu yerel Docker/Podman sorgulanır.</p>
+<p>Yerel TCP/UDP soketleri. Yönetici hakları yoksa süreç ayrıntıları bulunmayabilir. Yerel bağlantı noktası ağdan erişilebilir olmayabilir.</p>
+<p>Kullanılabilir BlueZ denetleyicisi yok. Donanım yok veya sanal makineye aktarılmış olabilir.</p>
+<h2>Bilinen aygıtlar</h2>
+<p>Komşu önbelleği MAC adresine göre gruplanır; IPv4/IPv6 ve tüm arayüzler korunur. Kullanılabilir MAC yoksa kayıtlar ayrı kalır. Yönlendirici bayrağı çekirdekten gelir; yokluğu yönlendirme yeteneğinin olmadığını kanıtlamaz. STALE çevrimdışı demek değildir.</p>
+<p>Adlar önce /etc/hosts, sonra getent/NSS üzerinden gelir. Yenileme başına en fazla 16 adres, dört paralel sorgu ve sorgu başına 1,5 saniye sınırı vardır. Başarılı sonuçlar beş dakika, başarısızlar bir dakika önbelleklenir. PTR/mDNS yoksa ad bulunmayabilir. MAC üreticileri yerel OUI veritabanlarından gelir; indirme yapılmaz. Yerel veya aynı MAC kimlik kanıtı değildir. used, confirmed, updated olaydan beri saniyelerdir; router:null etkin bayraktır.</p>
+<h2>Wi-Fi ağları</h2>
+<p>NetworkManager önbelleğindeki bilinen ağlar. Yeni Wi-Fi taraması başlatılmaz. SIGNAL, yüzde olarak göreli sinyal gücüdür.</p>
+<h2>Bağlantı testleri</h2>
+<p>Bu testler yalnızca Testi çalıştır düğmesine basıldığında trafik gönderir. IP veya ad girin. Ad çözümleme DNS/mDNS kullanabilir. Ping: 4 paket; yol: en fazla 12 atlama; zaman aşımı: 20 saniye.</p>
+<p>Hedef veya test geçersiz; test çalışmaz. Boşluk, seçenek veya IPv6 bölge kimliği içermeyen IP ya da ad girin.</p>
+<h2>Canlı veriler</h2>
+<p>Gerçek süre, UTC zamanı ve son 60 saniyenin en düşük/en yüksek değerleriyle pasif örnekleme. RX alma, TX gönderme demektir. Kullanım için fiziksel bağlantı hızı bilinmelidir. İlk örnekte ve sayaç sıfırlamasında hız hesaplanmaz. İnternet hız testi değildir.</p>
+<p>Sayaçlar zamanı bilinmeyen son sıfırlamadan beri birikir. 10.000 RX düşürmede inceleme bildirimi çıkar; arıza teşhisi değildir. Her saniye gerçek süreyle örnek alınır. Duraklatma, arayüz değişimi veya sıfırlama yeni başlangıç gerektirir. Kullanım yalnızca fiziksel hız biliniyorsa hesaplanır. Desteklenmeyen ethtool sorguları nötr gösterilir; izin ve zaman aşımı hataları günlükte kalır. Yazılım kurulmaz ve yetkiler otomatik artırılmaz.</p>
+<p>Linux ve sürücü sayaçları farklı veya örtüşen olayları sayabilir. Değerleri karşılaştırın; toplamayın.</p>
+<h2>Yönlendirme tabloları</h2>
+<p>Ana tablonun IPv4/IPv6 varsayılan yolları metriğe göre sıralanır. Politika kuralları, yönlendirici tercihleri ve çok yollu yönlendirme her hedefin gerçek yolunu etkileyebilir.</p>
+<h2>Çekirdek ağ ayarları</h2>
+<p>Tüm çekirdek ağ parametrelerini göster</p>
+<pre dir="ltr">net.ipv4.ip_forward
+net.ipv6.conf.all.forwarding
+net.ipv4.conf.all.rp_filter
+net.ipv4.tcp_syncookies
+net.ipv4.tcp_congestion_control
+net.ipv4.tcp_mtu_probing
+net.ipv6.conf.all.disable_ipv6
+net.ipv6.conf.all.accept_ra
+net.mptcp.enabled
+net.netfilter.nf_conntrack_max</pre>
+<h2>Raporu kaydet…</h2>
+<p>Standart CSV; özet, zaman, bağdaştırıcı, komşu, yol, soket, canlı veri, bulgu ve on temel çekirdek parametresini içerir. Tam CSV tüm ayrıntıları korur; TXT kısa rapordur. Arama filtresi dışa aktarımı sınırlamaz. CSV v2, sabit teknik kimliklerle section;entry;field;value sütunlarını kullanır. Anonimleştirme, rapor içinde IP/MAC yerine tutarlı adlar koyar; ad, SSID, makine ve süreç kimliklerini kaldırır. Bazı teknik özellikler tanınabilir kalır; yayımlamadan önce denetleyin.</p>
+<p>Adresler tanımlayıcılarla değiştirilir. Adlar, süreç ayrıntıları ve serbest tanılama metni kaldırılır. Yerel veriler değişmez.</p>
+<h2>Günlükleri göster</h2>
+<p>Geçerli oturumun hata günlüğü (logs/errors.log). Yenile yeni iletileri okur. Sonraki program başlangıcında günlük temizlenir.</p>
+<p>Günlük görünümü salt okunurdur. Yenile tekrar okur; Kapat pencereyi kapatır. Boş günlük açıkça belirtilir. Arayüz, --scan veya --check başlatılırken errors.log temizlenir; errors.log.1 ve errors.log.2 silinir. Yeni iletiler oturum boyunca kalır. Eksik dosya veya geçersiz UTF-8, diğer işlevleri engellemeden IS107 gösterir. Yazma başarısızsa hatalar terminalde görünür.</p>
+<h2>Bildirimler</h2>
+<p>Her bildirim kodu ve etkilenen işlemi içerir. Eksik veri tahmin edilmez; sorgu hatası hizmetin kapalı olduğunu kanıtlamaz. Nedeni düzeltip yenileyin. İsteğe bağlı kaynak hataları diğer işlemleri durdurmaz; Python/GTK yoksa arayüz başlamaz. Dışa aktarma, kurulum veya test hataları ilgili işlemi engeller. Bozuk yapılandırmada dosya üzerine yazılmadan varsayılanlar kullanılır.</p>
+<dl>
+<dt>IS001</dt><dd>Python 3.10+, python3-gi ve GTK 4.8+ kurun.</dd>
+<dt>IS101</dt><dd>Günlük açılamıyor veya temizlenemiyor. logs/ ve errors.log izinlerini denetleyin. Hatalar terminalde gösterilir.</dd>
+<dt>IS102</dt><dd>Ayarlar okunamadı veya kaydedilemedi. config/settings.json dosyasını ve izinleri denetleyin. Okuma hatasında varsayılanlar kullanılır.</dd>
+<dt>IS103</dt><dd>Dil dosyası eksik veya geçersiz. Metin anahtarları ve değerleri içeren UTF-8 JSON dosyasını geri yükleyin.</dd>
+<dt>IS105</dt><dd>Seçilen dilin yardımı eksik veya açılamıyor. help/&lt;code&gt;.html dosyasını ve varsayılan tarayıcıyı denetleyin.</dd>
+<dt>IS106</dt><dd>Simge eksik veya hasarlı. resources/ dizinini dağıtımdan geri yükleyin.</dd>
+<dt>IS107</dt><dd>logs/errors.log okunamıyor. Dosyanın varlığını, okuma izinlerini ve UTF-8 kodlamasını denetleyip yenileyin.</dd>
+<dt>IS201</dt><dd>Gerekli araç eksik. ip/ss: iproute2; nmcli: network-manager; ethtool: ethtool. İlgili veriler boş kalır.</dd>
+<dt>IS202</dt><dd>Sorgu başarısız veya zaman aşımına uğradı. Aygıt desteğini, hizmeti ve izinleri denetleyin. Diğer veriler kullanılabilir.</dd>
+<dt>IS203</dt><dd>Sorgu geçersiz veya çok büyük veri döndürdü. Araç sürümünü denetleyip yenileyin.</dd>
+<dt>IS204</dt><dd>Hedef veya test geçersiz; test çalışmaz. Boşluk, seçenek veya IPv6 bölge kimliği içermeyen IP ya da ad girin.</dd>
+<dt>IS299</dt><dd>Beklenmeyen toplama hatası. logs/ dizinini denetleyip yenileyin.</dd>
+<dt>IS301</dt><dd>Rapor kaydedilemedi. Hedefi, boş alanı ve yazma izinlerini denetleyin.</dd>
+<dt>IS401</dt><dd>Kurulum veya kaldırma başarısız. Belirtilen yolu ve izinleri denetleyip yeniden deneyin.</dd>
+</dl>
+<p>GPL-3.0-only · Josef Lehner</p>
+<p><a href="https://dogtruck.eu">dogtruck.eu</a></p></body></html>

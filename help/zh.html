@@ -1,0 +1,86 @@
+<!doctype html><html lang="zh" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ipSnoop 1.5.0</title><style>body{max-width:76em;margin:2em auto;padding:0 1em;line-height:1.6}pre,code{direction:ltr;unicode-bidi:isolate}pre{white-space:pre-wrap}dt{font-weight:bold;margin-top:1em}h2{margin-top:1.7em}</style></head><body><h1>ipSnoop 1.5.0</h1>
+<p>ipSnoop 读取 Linux 本地数据，不更改网络设置。邻居和 Wi-Fi 列表来自已有缓存，并非完整的设备发现、数据包捕获或主动网络扫描。虚拟机中显示来宾系统的数据。自动名称解析可能发送 DNS/mDNS 查询。</p>
+<h2>类别</h2>
+<p>“类别”菜单包含五个可独立展开的组，共 24 个视图，菜单条目不带图标。搜索会展开匹配组，清除搜索后恢复先前的展开状态。顶部搜索框筛选结果，滚动时列标题保持可见。“刷新”在后台读取新数据。未连接的适配器默认隐藏，未知状态和错误仍可见。零是有效值。</p>
+<ul><li>设备与无线</li><li>地址与路由</li><li>连接与防护</li><li>监控与诊断</li><li>系统</li></ul>
+<h2>设置</h2>
+<p>“编辑 → 设置”可选择语言，以及手动或每 5、10、30 秒刷新。设置保存于 config/settings.json；显示选项另存于 config/visibility.json。languages/&lt;code&gt;.json 必须是键和值均为文本的 UTF-8 JSON。打开设置时会重新检测文件，无需重启；缺失文本回退为英语。只有一个有效语言时自动选用。每次打开帮助时重新检测文件，仅使用所选语言对应的 help/&lt;code&gt;.html，不回退到其他语言。</p>
+<pre dir="ltr">languages/de.json · languages/en.json · languages/es.json · languages/fr.json
+languages/pt.json · languages/zh.json · languages/hi.json · languages/ar.json
+languages/ru.json · languages/tr.json
+
+{&quot;language.name&quot;: &quot;简体中文&quot;, &quot;refresh&quot;: &quot;刷新&quot;}</pre>
+<h2>系统</h2>
+<p>需要 Linux Mint、Python 3.10+、GTK 4.8+ 和 PyGObject。编译版要求 Python 3.12，并非独立原生可执行程序。解压后使用下列命令安装到空目录。installation.json 记录安装文件；卸载删除这些文件和所属空目录，保留之后创建的个人文件。参阅 README.md、LICENSE 和 resources/HERKUNFT.md。</p>
+<pre dir="ltr">python3 -m ipsnoop
+python3 -m ipsnoop --help
+python3 -m ipsnoop --version
+python3 -m ipsnoop --check
+python3 -m ipsnoop --scan
+python3 install.py --directory /path/to/empty/folder
+python3 /path/to/empty/folder/install.py --uninstall
+python3 -m unittest discover -s tests
+python3 build.py</pre>
+<p>--scan 可在无图形界面时输出 JSON：检测到适配器返回 0，否则返回 1。--check 检查资源。--help 和 --version 不清空日志。这些命令不修改网络设置。JSON 和 CSV 可能包含个人数据。</p>
+<pre dir="ltr">python3-gi · gir1.2-gtk-4.0 · iproute2 (ip, ss, bridge, tc)
+network-manager (nmcli) · ethtool · pciutils (lspci)
+systemd-resolved (resolvectl) · procps (sysctl) · nftables · ufw
+bluez (bluetoothctl) · iw · iputils-ping · iputils-tracepath
+lldpd (lldpcli) · conntrack · wireguard-tools (wg)</pre>
+<h2>高级</h2>
+<p>详细视图包括网卡/DHCP、DNS、IPv6、路由规则、VLAN、网桥、虚拟接口、防火墙、统计、QoS、Wi-Fi、蓝牙及命名空间。DHCP 和租约时间仅在工具报告时显示。IPv6 auto 可能表示 SLAAC，不能证明使用 DHCPv6。ethtool 根据驱动支持读取模式、队列、RSS、时间戳能力和计数器。链路速率不是互联网速度，缺失的最大值不会被估算。PCI 型号来自 lspci 或确切的 PCI ID，不根据驱动名称猜测。</p>
+<p>TCP 视图显示 ss -ti 提供的 RTT、RTO、cwnd 和重传等。LLDP 查询已有服务，不启动发现。conntrack 读取连接和计数器。WireGuard 显示公钥、端点、握手和传输量，绝不读取私钥。隧道或 TUN/PPP/XFRM 不能证明加密，旧握手也不证明故障。蓝牙分别显示硬件、服务和控制器，不发现新设备。仅查询可访问的具名命名空间及已安装的本地 Docker/Podman。</p>
+<p>本地 TCP/UDP 套接字。没有管理员权限时，进程详细信息可能不可用。本地端口不一定能从网络访问。</p>
+<p>没有可用的 BlueZ 控制器。硬件可能不可用或已直通给虚拟机。</p>
+<h2>已知设备</h2>
+<p>邻居缓存按 MAC 分组，保留 IPv4/IPv6 和所有接口。没有可用 MAC 的条目保持独立。路由器标志来自内核；缺少标志不代表没有路由能力。STALE 不表示离线。</p>
+<p>名称优先来自 /etc/hosts，然后通过 getent/NSS 查询。每次刷新最多 16 个地址，最多四个并行查询，每个超时 1.5 秒。成功结果缓存五分钟，失败结果缓存一分钟。没有 PTR/mDNS 时名称可能未知。MAC 厂商来自本地 OUI 数据库，不下载数据库。本地管理或重复的 MAC 不能证明设备身份。used、confirmed、updated 表示距事件发生的秒数；router:null 表示标志已设置。</p>
+<h2>Wi-Fi 网络</h2>
+<p>来自 NetworkManager 缓存的已知 Wi-Fi 网络，不触发新的 Wi-Fi 扫描。SIGNAL 是相对信号强度百分比。</p>
+<h2>连接测试</h2>
+<p>这些测试仅在点击“运行测试”后发送网络流量。请输入 IP 或主机名。名称查询可能使用 DNS/mDNS。Ping：4 个包；路由：最多 12 跳；超时：20 秒。</p>
+<p>目标或测试类型无效，不执行测试。请输入不含空格、选项或 IPv6 区域 ID 的 IP 地址或主机名。</p>
+<h2>实时数据</h2>
+<p>被动采样，使用实际间隔、UTC 时间以及最近 60 秒的最小/最大值。RX 为接收，TX 为发送。利用率要求已知物理链路速率。首次采样和计数器重置时不计算速率。这不是互联网测速。</p>
+<p>计数器自上次重置起累计，准确起点未知。达到 10,000 次 RX 丢弃时显示检查提示，并非硬件故障诊断。每秒采样并使用实际时间间隔；暂停、切换接口或重置计数器后需建立新基准。仅在物理链路速率已知时计算利用率。不支持的 ethtool 查询中性显示，权限错误和超时仍记录。不自动安装软件或提升权限。</p>
+<p>Linux 和驱动计数器可能统计不同或重叠的事件。应比较这些数值，不要相加。</p>
+<h2>路由表</h2>
+<p>主路由表的 IPv4/IPv6 默认路由按度量值排序。策略规则、路由器优先级和多路径路由可能影响各目标的实际路径。</p>
+<h2>内核网络参数</h2>
+<p>显示所有内核网络参数</p>
+<pre dir="ltr">net.ipv4.ip_forward
+net.ipv6.conf.all.forwarding
+net.ipv4.conf.all.rp_filter
+net.ipv4.tcp_syncookies
+net.ipv4.tcp_congestion_control
+net.ipv4.tcp_mtu_probing
+net.ipv6.conf.all.disable_ipv6
+net.ipv6.conf.all.accept_ra
+net.mptcp.enabled
+net.netfilter.nf_conntrack_max</pre>
+<h2>保存报告…</h2>
+<p>标准 CSV 包含摘要、采集时间、适配器、邻居、路由、套接字、实时数据、发现及十个核心内核参数。完整 CSV 保留所有采集细节；TXT 为简报。导出范围不受搜索过滤影响。CSV v2 使用固定技术标识和四列 section;entry;field;value。匿名化仅在报告内部用一致代号替代 IP/MAC，并移除名称、SSID、计算机和进程标识。部分技术特征仍可识别，发布前请检查。</p>
+<p>地址被替换为标识符，名称、进程信息和自由格式诊断文本被移除。本地数据不变。</p>
+<h2>显示日志</h2>
+<p>当前会话的错误日志（logs/errors.log）。“刷新”读取新消息，下次启动程序时清空日志。</p>
+<p>日志视图只读，“刷新”重新读取，“关闭”关闭窗口，空日志会明确提示。启动界面、--scan 或 --check 时清空 errors.log，并删除 errors.log.1 和 errors.log.2。新消息在整个会话期间保留。文件缺失或 UTF-8 无效时显示 IS107，其他功能继续可用。写入失败时在终端显示错误。</p>
+<h2>提示</h2>
+<p>每条提示包含错误码及相关操作。缺失数据不估算，查询失败不能证明服务已禁用。修正原因后刷新。可选资源故障不妨碍其他功能；缺少 Python/GTK 时界面无法启动。导出、安装或测试错误会阻止对应操作。损坏的配置使用默认值，但不覆盖原文件。</p>
+<dl>
+<dt>IS001</dt><dd>请安装 Python 3.10+、python3-gi 和 GTK 4.8+。</dd>
+<dt>IS101</dt><dd>无法打开或清空日志。请检查 logs/ 和 errors.log 的权限。错误将显示在终端中。</dd>
+<dt>IS102</dt><dd>无法读取或保存设置。请检查 config/settings.json 和权限。读取失败时使用默认值。</dd>
+<dt>IS103</dt><dd>语言文件缺失或无效。请恢复键和值均为文本的 UTF-8 JSON 文件。</dd>
+<dt>IS105</dt><dd>所选语言的帮助缺失或无法打开。请检查 help/&lt;code&gt;.html 和默认浏览器。</dd>
+<dt>IS106</dt><dd>图标缺失或损坏。请从发布包恢复 resources/。</dd>
+<dt>IS107</dt><dd>无法读取 logs/errors.log。请检查文件是否存在、读取权限及 UTF-8 编码，然后刷新。</dd>
+<dt>IS201</dt><dd>缺少查询工具。ip/ss：iproute2；nmcli：network-manager；ethtool：ethtool。相关数据为空。</dd>
+<dt>IS202</dt><dd>查询失败或超时。请检查设备支持、服务和访问权限。其他数据仍可使用。</dd>
+<dt>IS203</dt><dd>查询返回无效或过大的数据。请检查工具版本并刷新。</dd>
+<dt>IS204</dt><dd>目标或测试类型无效，不执行测试。请输入不含空格、选项或 IPv6 区域 ID 的 IP 地址或主机名。</dd>
+<dt>IS299</dt><dd>采集发生意外错误。请检查 logs/ 并刷新。</dd>
+<dt>IS301</dt><dd>无法保存报告。请检查目标位置、可用空间和写入权限。</dd>
+<dt>IS401</dt><dd>安装或卸载失败。请检查所示路径和权限，然后重试。</dd>
+</dl>
+<p>GPL-3.0-only · Josef Lehner</p>
+<p><a href="https://dogtruck.eu">dogtruck.eu</a></p></body></html>
