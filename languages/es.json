@@ -279,5 +279,11 @@
   "show_logs": "Mostrar registros",
   "logs_hint": "Registro de la sesión actual (logs/errors.log). Actualizar lee mensajes nuevos. El siguiente inicio del programa vacía el registro.",
   "logs_empty": "No hay registros en esta sesión.",
-  "IS107": "No se puede leer logs/errors.log. Compruebe que exista, sus permisos de lectura y la codificación UTF-8; después actualice."
+  "IS107": "No se puede leer logs/errors.log. Compruebe que exista, sus permisos de lectura y la codificación UTF-8; después actualice.",
+  "download_languages": "Descargar idiomas y ayuda",
+  "download_hint": "Descarga en {path} e instalación en languages/ y help/. Los archivos temporales se eliminan después; los existentes se conservan. Fuente: GitHub, versión 1.5.4. La descarga continúa al cerrar.",
+  "download": "Descargar",
+  "download_busy": "Descargando…",
+  "download_done": "✓ {count} archivos añadidos. Seleccione el idioma y guarde.",
+  "IS108": "Error al descargar idiomas o ayuda. Compruebe Internet y los permisos de escritura en ~/Downloads, languages/ y help/ y vuelva a intentarlo. Los archivos completos ya guardados se conservan."
 }

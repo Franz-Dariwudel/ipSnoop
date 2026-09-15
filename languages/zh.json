@@ -279,5 +279,11 @@
   "show_logs": "显示日志",
   "logs_hint": "当前会话的错误日志（logs/errors.log）。“刷新”读取新消息，下次启动程序时清空日志。",
   "logs_empty": "本次会话没有日志条目。",
-  "IS107": "无法读取 logs/errors.log。请检查文件是否存在、读取权限及 UTF-8 编码，然后刷新。"
+  "IS107": "无法读取 logs/errors.log。请检查文件是否存在、读取权限及 UTF-8 编码，然后刷新。",
+  "download_languages": "下载语言和帮助",
+  "download_hint": "下载到 {path}，然后安装到 languages/ 和 help/。随后删除临时文件，保留已有文件。来源：GitHub 1.5.4 版本。关闭窗口后下载仍会继续。",
+  "download": "下载",
+  "download_busy": "正在下载…",
+  "download_done": "✓ 已添加 {count} 个文件。请选择语言并保存。",
+  "IS108": "语言或帮助下载失败。请检查网络连接以及 ~/Downloads、languages/ 和 help/ 的写入权限，然后重试。已完整保存的文件会被保留。"
 }

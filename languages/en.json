@@ -279,5 +279,11 @@
   "show_logs": "Show logs",
   "logs_hint": "Current session error log (logs/errors.log). Refresh reads new messages. The next application start clears the log.",
   "logs_empty": "No log entries in this session.",
-  "IS107": "Cannot read logs/errors.log. Check the file, read permissions and UTF-8 encoding, then refresh."
+  "IS107": "Cannot read logs/errors.log. Check the file, read permissions and UTF-8 encoding, then refresh.",
+  "download_languages": "Download languages and help",
+  "download_hint": "Download to {path}, then install into languages/ and help/. Temporary downloads are deleted afterwards. Existing files are preserved. Source: GitHub, version 1.5.4. An active download continues after closing this dialog.",
+  "download": "Download",
+  "download_busy": "Downloading …",
+  "download_done": "✓ Added {count} files. Select the language and press Save.",
+  "IS108": "Language/help download failed. Check your internet connection and write access to ~/Downloads, languages/ and help/, then retry. Files already saved completely are preserved."
 }

@@ -279,5 +279,11 @@
   "show_logs": "Afficher les journaux",
   "logs_hint": "Journal de la session actuelle (logs/errors.log). Actualiser charge les nouveaux messages. Le prochain démarrage vide le journal.",
   "logs_empty": "Aucune entrée de journal dans cette session.",
-  "IS107": "Impossible de lire logs/errors.log. Vérifiez son existence, les droits de lecture et l’encodage UTF-8, puis actualisez."
+  "IS107": "Impossible de lire logs/errors.log. Vérifiez son existence, les droits de lecture et l’encodage UTF-8, puis actualisez.",
+  "download_languages": "Télécharger les langues et l’aide",
+  "download_hint": "Téléchargement dans {path}, puis installation dans languages/ et help/. Les fichiers temporaires sont supprimés ensuite. Les fichiers existants sont conservés. Source : GitHub, version 1.5.4. Le téléchargement continue après la fermeture.",
+  "download": "Télécharger",
+  "download_busy": "Téléchargement en cours…",
+  "download_done": "✓ {count} fichiers ajoutés. Choisissez la langue et enregistrez.",
+  "IS108": "Échec du téléchargement. Vérifiez Internet et les droits d’écriture dans ~/Downloads, languages/ et help/, puis réessayez. Les fichiers déjà enregistrés intégralement sont conservés."
 }

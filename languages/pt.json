@@ -279,5 +279,11 @@
   "show_logs": "Mostrar registos",
   "logs_hint": "Registo da sessão atual (logs/errors.log). Atualizar lê novas mensagens. O próximo arranque limpa o registo.",
   "logs_empty": "Sem entradas no registo desta sessão.",
-  "IS107": "Não é possível ler logs/errors.log. Verifique a existência, permissões de leitura e codificação UTF-8; depois atualize."
+  "IS107": "Não é possível ler logs/errors.log. Verifique a existência, permissões de leitura e codificação UTF-8; depois atualize.",
+  "download_languages": "Transferir idiomas e ajuda",
+  "download_hint": "Transferência para {path} e instalação em languages/ e help/. Os ficheiros temporários são eliminados depois; os existentes são preservados. Fonte: GitHub, versão 1.5.4. A transferência continua ao fechar.",
+  "download": "Transferir",
+  "download_busy": "A transferir…",
+  "download_done": "✓ {count} ficheiros adicionados. Selecione o idioma e guarde.",
+  "IS108": "Falha ao transferir idiomas ou ajuda. Verifique a Internet e as permissões de escrita em ~/Downloads, languages/ e help/ e tente novamente. Os ficheiros já guardados por completo são preservados."
 }

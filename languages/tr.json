@@ -279,5 +279,11 @@
   "show_logs": "Günlükleri göster",
   "logs_hint": "Geçerli oturumun hata günlüğü (logs/errors.log). Yenile yeni iletileri okur. Sonraki program başlangıcında günlük temizlenir.",
   "logs_empty": "Bu oturumda günlük kaydı yok.",
-  "IS107": "logs/errors.log okunamıyor. Dosyanın varlığını, okuma izinlerini ve UTF-8 kodlamasını denetleyip yenileyin."
+  "IS107": "logs/errors.log okunamıyor. Dosyanın varlığını, okuma izinlerini ve UTF-8 kodlamasını denetleyip yenileyin.",
+  "download_languages": "Dilleri ve yardımı indir",
+  "download_hint": "{path} içine indirilir, ardından languages/ ve help/ içine kurulur. Geçici dosyalar silinir, mevcut dosyalar korunur. Kaynak: GitHub, sürüm 1.5.4. Kapatıldıktan sonra indirme devam eder.",
+  "download": "İndir",
+  "download_busy": "İndiriliyor…",
+  "download_done": "✓ {count} dosya eklendi. Dili seçip kaydedin.",
+  "IS108": "Dil veya yardım indirilemedi. İnterneti ve ~/Downloads, languages/ ile help/ yazma izinlerini kontrol edip tekrar deneyin. Tamamen kaydedilmiş dosyalar korunur."
 }

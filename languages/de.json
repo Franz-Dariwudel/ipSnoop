@@ -279,5 +279,11 @@
   "show_logs": "Logs anzeigen",
   "logs_hint": "Fehlerprotokoll der aktuellen Sitzung (logs/errors.log). Aktualisieren liest neue Meldungen ein. Beim nächsten Programmstart wird das Protokoll geleert.",
   "logs_empty": "Keine Protokolleinträge in dieser Sitzung.",
-  "IS107": "logs/errors.log kann nicht gelesen werden. Datei, Leserechte und UTF-8-Kodierung prüfen; danach erneut aktualisieren."
+  "IS107": "logs/errors.log kann nicht gelesen werden. Datei, Leserechte und UTF-8-Kodierung prüfen; danach erneut aktualisieren.",
+  "download_languages": "Sprachen und Hilfe herunterladen",
+  "download_hint": "Download nach {path}, anschließend Installation in languages/ und help/. Temporäre Downloads werden danach gelöscht. Vorhandene Dateien bleiben erhalten. Quelle: GitHub, Version 1.5.4. Ein laufender Download wird auch nach dem Schließen beendet.",
+  "download": "Herunterladen",
+  "download_busy": "Download läuft …",
+  "download_done": "✓ {count} Dateien ergänzt. Sprache auswählen und Speichern drücken.",
+  "IS108": "Sprach-/Hilfedownload fehlgeschlagen. Internetverbindung und Schreibrechte in ~/Downloads, languages/ und help/ prüfen und erneut herunterladen. Bereits vollständig gespeicherte Dateien bleiben erhalten."
 }
