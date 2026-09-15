@@ -99,6 +99,6 @@ Die fünf Gruppen im Kategorienmenü sind separat aufklappbar und anfangs geschl
 
 ## Downloads
 
-- [Quellcodepaket 1.4.4](downloads/ipSnoop-1.4.4-quellcode.zip)
-- [Kompilierte Ausgabe für Python 3.12](downloads/ipSnoop-1.4.4-python3.12-kompiliert.tar.gz)
-- [SHA256-Prüfsummen](downloads/ipSnoop-1.4.4-SHA256SUMS.txt)
+- [Quellcodepaket 1.4.4](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.4.4/ipSnoop-1.4.4-quellcode.zip)
+- [Kompilierte Ausgabe für Python 3.12](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.4.4/ipSnoop-1.4.4-python3.12-kompiliert.tar.gz)
+- [SHA256-Prüfsummen](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.4.4/ipSnoop-1.4.4-SHA256SUMS.txt)
