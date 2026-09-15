@@ -1,4 +1,4 @@
-# ipSnoop 1.4.4
+# ipSnoop 1.5.0
 
 GTK-4-Programm für Linux Mint zum Auslesen eigener Netzwerkadapter und vorhandener Netzwerkdaten. Zeigt IPv4/IPv6 mit Präfix, MAC und permanente MAC, Subnetze, Gateway, DNS, Routing-Metrik, IP-Konfigurationsmethode, Treiber/Firmware, Link-Modi, Geschwindigkeit, Duplex, MTU und Fehlerzähler.
 
@@ -26,7 +26,7 @@ IPv4-Methode `auto` bezeichnet gewöhnlich DHCP. Bei IPv6 kann `auto` auch SLAAC
 
 ## Sprachen, Hilfe und Dateien
 
-Deutsch und Englisch sind enthalten. `languages/<code>.json` ist ein UTF-8-JSON-Objekt mit Textschlüsseln und Textwerten. Beim Öffnen der Einstellungen werden die Kataloge neu erkannt. Englische Texte dienen als Rückfall; genau eine gültige Sprache wird ohne Auswahl verwendet. Die HTML-Hilfe wird beim Aufruf passend zur aktuellen Sprache neu gelesen (`help/<code>.html`), ohne Wechsel zu einer anderen Sprache.
+Deutsch, Englisch, Spanisch, Französisch, Portugiesisch, vereinfachtes Chinesisch, Hindi, Arabisch, Russisch und Türkisch sind mit jeweils eigener HTML-Hilfe enthalten. `languages/<code>.json` ist ein UTF-8-JSON-Objekt mit Textschlüsseln und Textwerten. Beim Öffnen der Einstellungen werden die Kataloge neu erkannt. Englische Texte dienen als Rückfall; genau eine gültige Sprache wird ohne Auswahl verwendet. Die HTML-Hilfe wird beim Aufruf passend zur aktuellen Sprache neu gelesen (`help/<code>.html`), ohne Wechsel zu einer anderen Sprache.
 
 Konfiguration: `config/settings.json`. Fehlerlogs: `logs/errors.log` mit Rotation innerhalb der laufenden Sitzung. Beim Programmstart (Oberfläche, `--scan` oder `--check`) wird die Datei geleert; `errors.log.1` und `errors.log.2` werden entfernt. Aktualisieren und Dialoge erhalten die aktuellen Meldungen. `--help` und `--version` verändern das Protokoll nicht. Fehlercodes IS001–IS401 sind in beiden HTML-Hilfen dokumentiert. Systemabfragen sind auf je zwei Sekunden begrenzt und laufen außerhalb des GTK-Threads. Der Wortlaut technischer Kernel-/Werkzeugwerte bleibt unverändert.
 
@@ -71,7 +71,7 @@ Bekannte Geräte erhalten automatisch Namen über `/etc/hosts` und `getent` (lok
 
 Optionale ethtool-Detailabfragen: Nicht unterstützte Funktionen und „No data available“ erscheinen neutral. Fehlende Werkzeuge, Zugriffsfehler und Zeitüberschreitungen bleiben Warnungen. Beim nächsten Programmstart wird das Protokoll wie oben beschrieben zurückgesetzt.
 
-## Berichte ab 1.4.4
+## Berichte ab 1.5.0
 
 Oberhalb der Ergebnisse den Export wählen: **Standard-CSV**, **Vollständige Diagnose-CSV** oder **Kurzbericht (TXT)**. Die Standard-CSV enthält Zusammenfassung, Scan-Zeiten, Adapter, gruppierte Nachbarn, Routen, Sockets, Live-Daten, Auffälligkeiten, Abfragestatus und die zentrale Kernelauswahl. Umfangreiche freie Treiber-/Firewall-/Topologiedaten stehen im Vollbericht einschließlich aller erfassten sysctl-net-Werte und einzelnen Nachbarbeobachtungen. Fehlende Daten werden nicht ergänzt oder geschätzt. CSV hat vier feste Spalten `section;entry;field;value`; Bereichs- und Feldkennungen bleiben sprachunabhängig. Die Schema-Kennung ist `ipsnoop-report-v2`. Bestehende Auswertungen müssen die neuen technischen Feldnamen berücksichtigen.
 
@@ -91,7 +91,7 @@ Die Kernelansicht zeigt zunächst zehn zentrale Schlüssel; **Alle Kernel-Netzwe
 
 Technische Grundlagen: [iproute2-Nachbarcache](https://github.com/iproute2/iproute2/blob/main/ip/ipneigh.c), [Linux-Schnittstellenstatistiken](https://www.kernel.org/doc/html/latest/networking/statistics.html).
 
-## Kategorienmenü und Logs (1.4.4)
+## Kategorienmenü und Logs (1.5.0)
 
 Das Menü **Kategorien** bündelt die 24 Ansichten in fünf Gruppen mit Suche. Die Ergebnisansicht nutzt die gesamte Breite. **Hilfe → Logs anzeigen** öffnet das aktuelle Sitzungsprotokoll schreibgeschützt mit Aktualisieren. IS107 meldet eine fehlende, nicht lesbare oder ungültig kodierte Logdatei.
 
@@ -99,6 +99,6 @@ Die fünf Gruppen im Kategorienmenü sind separat aufklappbar und anfangs geschl
 
 ## Downloads
 
-- [Quellcodepaket 1.4.4](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.4.4/ipSnoop-1.4.4-quellcode.zip)
-- [Kompilierte Ausgabe für Python 3.12](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.4.4/ipSnoop-1.4.4-python3.12-kompiliert.tar.gz)
-- [SHA256-Prüfsummen](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.4.4/ipSnoop-1.4.4-SHA256SUMS.txt)
+- [Quellcodepaket 1.5.0](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.0/ipSnoop-1.5.0-quellcode.zip)
+- [Kompilierte Ausgabe für Python 3.12](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.0/ipSnoop-1.5.0-python3.12-kompiliert.tar.gz)
+- [SHA256-Prüfsummen](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.0/ipSnoop-1.5.0-SHA256SUMS.txt)

@@ -1,3 +1,10 @@
+# 1.5.0
+
+- Zehn vollständige Sprachkataloge: de, en, es, fr, pt, zh, hi, ar, ru, tr; jeweils 281 Texte.
+- Passende HTML-Hilfe für alle zehn Sprachen einschließlich Fehlercodes und Bedienung.
+- Arabische Oberfläche und Hilfe mit Schreibrichtung von rechts nach links.
+- Dynamische Spracherkennung und englischer Textrückfall bleiben erhalten.
+
 # 1.4.4
 
 - Icons aus den Einträgen im Kategorienmenü entfernt.
