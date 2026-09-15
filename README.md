@@ -1,4 +1,4 @@
-# ipSnoop 1.5.0
+# ipSnoop 1.5.4
 
 GTK-4-Programm für Linux Mint zum Auslesen eigener Netzwerkadapter und vorhandener Netzwerkdaten. Zeigt IPv4/IPv6 mit Präfix, MAC und permanente MAC, Subnetze, Gateway, DNS, Routing-Metrik, IP-Konfigurationsmethode, Treiber/Firmware, Link-Modi, Geschwindigkeit, Duplex, MTU und Fehlerzähler.
 
@@ -26,7 +26,7 @@ IPv4-Methode `auto` bezeichnet gewöhnlich DHCP. Bei IPv6 kann `auto` auch SLAAC
 
 ## Sprachen, Hilfe und Dateien
 
-Deutsch, Englisch, Spanisch, Französisch, Portugiesisch, vereinfachtes Chinesisch, Hindi, Arabisch, Russisch und Türkisch sind mit jeweils eigener HTML-Hilfe enthalten. `languages/<code>.json` ist ein UTF-8-JSON-Objekt mit Textschlüsseln und Textwerten. Beim Öffnen der Einstellungen werden die Kataloge neu erkannt. Englische Texte dienen als Rückfall; genau eine gültige Sprache wird ohne Auswahl verwendet. Die HTML-Hilfe wird beim Aufruf passend zur aktuellen Sprache neu gelesen (`help/<code>.html`), ohne Wechsel zu einer anderen Sprache.
+Deutsch und Englisch sind standardmäßig enthalten. Spanisch, Französisch, Portugiesisch, vereinfachtes Chinesisch, Hindi, Arabisch, Russisch und Türkisch lassen sich in den Einstellungen herunterladen; für alle zehn Sprachen gibt es eine HTML-Hilfe. `languages/<code>.json` ist ein UTF-8-JSON-Objekt mit Textschlüsseln und Textwerten. Beim Öffnen der Einstellungen werden die Kataloge neu erkannt. Englische Texte dienen als Rückfall; genau eine gültige Sprache wird ohne Auswahl verwendet. Die HTML-Hilfe wird beim Aufruf passend zur aktuellen Sprache neu gelesen (`help/<code>.html`), ohne Wechsel zu einer anderen Sprache.
 
 Konfiguration: `config/settings.json`. Fehlerlogs: `logs/errors.log` mit Rotation innerhalb der laufenden Sitzung. Beim Programmstart (Oberfläche, `--scan` oder `--check`) wird die Datei geleert; `errors.log.1` und `errors.log.2` werden entfernt. Aktualisieren und Dialoge erhalten die aktuellen Meldungen. `--help` und `--version` verändern das Protokoll nicht. Fehlercodes IS001–IS401 sind in beiden HTML-Hilfen dokumentiert. Systemabfragen sind auf je zwei Sekunden begrenzt und laufen außerhalb des GTK-Threads. Der Wortlaut technischer Kernel-/Werkzeugwerte bleibt unverändert.
 
@@ -71,7 +71,7 @@ Bekannte Geräte erhalten automatisch Namen über `/etc/hosts` und `getent` (lok
 
 Optionale ethtool-Detailabfragen: Nicht unterstützte Funktionen und „No data available“ erscheinen neutral. Fehlende Werkzeuge, Zugriffsfehler und Zeitüberschreitungen bleiben Warnungen. Beim nächsten Programmstart wird das Protokoll wie oben beschrieben zurückgesetzt.
 
-## Berichte ab 1.5.0
+## Berichte ab 1.5.4
 
 Oberhalb der Ergebnisse den Export wählen: **Standard-CSV**, **Vollständige Diagnose-CSV** oder **Kurzbericht (TXT)**. Die Standard-CSV enthält Zusammenfassung, Scan-Zeiten, Adapter, gruppierte Nachbarn, Routen, Sockets, Live-Daten, Auffälligkeiten, Abfragestatus und die zentrale Kernelauswahl. Umfangreiche freie Treiber-/Firewall-/Topologiedaten stehen im Vollbericht einschließlich aller erfassten sysctl-net-Werte und einzelnen Nachbarbeobachtungen. Fehlende Daten werden nicht ergänzt oder geschätzt. CSV hat vier feste Spalten `section;entry;field;value`; Bereichs- und Feldkennungen bleiben sprachunabhängig. Die Schema-Kennung ist `ipsnoop-report-v2`. Bestehende Auswertungen müssen die neuen technischen Feldnamen berücksichtigen.
 
@@ -91,7 +91,7 @@ Die Kernelansicht zeigt zunächst zehn zentrale Schlüssel; **Alle Kernel-Netzwe
 
 Technische Grundlagen: [iproute2-Nachbarcache](https://github.com/iproute2/iproute2/blob/main/ip/ipneigh.c), [Linux-Schnittstellenstatistiken](https://www.kernel.org/doc/html/latest/networking/statistics.html).
 
-## Kategorienmenü und Logs (1.5.0)
+## Kategorienmenü und Logs (1.5.4)
 
 Das Menü **Kategorien** bündelt die 24 Ansichten in fünf Gruppen mit Suche. Die Ergebnisansicht nutzt die gesamte Breite. **Hilfe → Logs anzeigen** öffnet das aktuelle Sitzungsprotokoll schreibgeschützt mit Aktualisieren. IS107 meldet eine fehlende, nicht lesbare oder ungültig kodierte Logdatei.
 
@@ -99,6 +99,18 @@ Die fünf Gruppen im Kategorienmenü sind separat aufklappbar und anfangs geschl
 
 ## Downloads
 
-- [Quellcodepaket 1.5.0](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.0/ipSnoop-1.5.0-quellcode.zip)
-- [Kompilierte Ausgabe für Python 3.12](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.0/ipSnoop-1.5.0-python3.12-kompiliert.tar.gz)
-- [SHA256-Prüfsummen](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.0/ipSnoop-1.5.0-SHA256SUMS.txt)
+- [Quellcodepaket 1.5.4](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.4/ipSnoop-1.5.4-quellcode.zip)
+- [Kompilierte Ausgabe für Python 3.12](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.4/ipSnoop-1.5.4-python3.12-kompiliert.tar.gz)
+- [SHA256-Prüfsummen](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.4/ipSnoop-1.5.4-SHA256SUMS.txt)
+
+## Sprach- und Hilfedownload (1.5.1)
+
+Unter Bearbeiten → Einstellungen die Downloadsprache auswählen und Herunterladen drücken. Fehlende JSON- und HTML-Dateien werden aus dem festen GitHub-Release 1.5.4 ergänzt; vorhandene Dateien bleiben erhalten. Danach Sprache auswählen und Speichern drücken. IS108 meldet Netzwerk-, Inhalts- oder Schreibfehler. Erneutes Herunterladen ergänzt noch fehlende Dateien. Beim Schließen des Dialogs läuft ein gestarteter Download weiter.
+
+Die Download-Dateien werden unter `~/Downloads/ipSnoop-language-…/` zwischengespeichert und nach der Installation entfernt. Bei Fehlern werden temporäre Downloads ebenfalls aufgeräumt. Andere Download-Dateien bleiben erhalten.
+
+## Debian-Paket (1.5.4)
+
+`sudo apt install ./ipsnoop_1.5.4_all.deb` installiert das Programm mit normalem und Administrator-Starter im Anwendungsmenü. Beide Starter werden auch bei grafischer Paketinstallation auf dem Desktop der aktiven grafischen Sitzung angelegt. Ist kein Benutzer eindeutig erkennbar, erfolgt die Einrichtung bei der nächsten grafischen Anmeldung. Der Administrator-Starter verwendet die Polkit-Passwortabfrage. Die beiden Betriebsarten speichern getrennte Einstellungen. Programmcode liegt schreibgeschützt unter `/usr/share/ipsnoop`; Konfiguration, Logs, Sprachdateien und Hilfen liegen pro Benutzer unter `~/.local/share/ipsnoop/`. Entfernen: `sudo apt remove ipsnoop`. Dabei werden Paketdateien und unveränderte, vom Paket angelegte Desktop-Starter entfernt. Neu angelegte programminterne Einstellungen, Logs sowie installierte und nachgeladene Sprach-/Hilfedateien werden ebenfalls entfernt. Bereits vor der Installation vorhandene Dateien und eigene Exporte bleiben erhalten.
+
+- [DEB-Paket 1.5.4](https://github.com/Franz-Dariwudel/ipSnoop/releases/download/v1.5.4/ipsnoop_1.5.4_all.deb)

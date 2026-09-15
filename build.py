@@ -17,9 +17,9 @@ def main():
     (ROOT/'dist').mkdir(exist_ok=True);(ROOT/'work').mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(dir=ROOT/'work',prefix='build-') as d:
         stage=Path(d)/('ipSnoop-'+VERSION);stage.mkdir()
-        for name in ('ipsnoop','languages','help','resources','tests'):
+        for name in ('ipsnoop','languages','help','resources','tests','packaging'):
             shutil.copytree(ROOT/name,stage/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
-        for name in ('install.py','build.py','README.md','CHANGELOG.md','LICENSE','pyproject.toml'):
+        for name in ('install.py','build.py','build_deb.py','README.md','CHANGELOG.md','LICENSE','pyproject.toml'):
             shutil.copy2(ROOT/name,stage/name)
         for name in ('config','logs'):(stage/name).mkdir()
         info={'version':VERSION,'kind':'source','python':f'{sys.version_info.major}.{sys.version_info.minor}','personal_data':False}

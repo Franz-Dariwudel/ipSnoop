@@ -1,3 +1,26 @@
+# 1.5.4
+
+- Desktop-Starter auch ohne SUDO_UID/PKEXEC_UID über die grafische Sitzung einrichten.
+- Einrichtung bei nächster Anmeldung, falls kein Desktopbenutzer erkennbar ist.
+- Desktop-Dateijournal für vollständige Deinstallation im Benutzerkontext.
+
+# 1.5.3
+
+- DEB-Deinstallation entfernt zusätzlich erfasste programminterne Benutzerdaten für normalen und Administratorstart.
+- Nachgeladene Sprachdateien, Hilfen, Konfiguration und Logs werden im Dateijournal erfasst.
+- Vorhandene Dateien und eigene Exporte bleiben geschützt.
+
+# 1.5.2
+
+- DEB-Paket mit normalem und Polkit-Administrator-Starter, Menü- und Desktop-Icons.
+- Schreibgeschützter Programmcode und getrennte beschreibbare Benutzerdaten bei Systeminstallation.
+
+# 1.5.1
+
+- Einstellungen: fehlende Sprachdateien und HTML-Hilfen direkt aus GitHub herunterladen.
+- Vorhandene Dateien bleiben erhalten; Downloads werden geprüft und ohne Neustart erkannt.
+- Fehler IS108 mit sichtbarer Erklärung und Protokollierung.
+
 # 1.5.0
 
 - Zehn vollständige Sprachkataloge: de, en, es, fr, pt, zh, hi, ar, ru, tr; jeweils 281 Texte.
