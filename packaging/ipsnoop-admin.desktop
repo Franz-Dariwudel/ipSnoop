@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ipSnoop (Administrator)
+Comment=Netzwerkdiagnose mit Administratorrechten
+Exec=/usr/bin/ipsnoop-admin
+Icon=ipsnoop-admin
+Terminal=false
+Categories=System;Monitor;Network;
+StartupNotify=true

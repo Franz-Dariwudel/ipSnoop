@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+# SPDX-License-Identifier: GPL-3.0-only
+"""Desktop-Starter im Benutzerkontext einrichten, unabhängig vom Installer."""
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+def setup():
+    if os.geteuid()==0:return
+    sys.path.insert(0,'/usr/share/ipsnoop')
+    from ipsnoop import DATA_ROOT,prepare_data
+    prepare_data()
+    desktop=Path(subprocess.check_output(['xdg-user-dir','DESKTOP'],text=True).strip())
+    if not desktop.is_absolute() or desktop==Path.home():
+        raise RuntimeError('Desktopordner ist nicht eingerichtet')
+    desktop.mkdir(parents=True,exist_ok=True)
+    journal=DATA_ROOT/'.desktop-starters.json'
+    records=json.loads(journal.read_text()) if journal.exists() else []
+    for name in ('ipsnoop','ipsnoop-admin'):
+        target=desktop/(name+'.desktop')
+        source=Path('/usr/share/applications')/target.name
+        if target.exists() and str(target) not in records:
+            raise RuntimeError('Vorhandener fremder Starter bleibt erhalten: '+str(target))
+        if str(target) not in records:
+            records.append(str(target));journal.write_text(json.dumps(records))
+        target.write_bytes(source.read_bytes());target.chmod(0o755)
+        env=os.environ.copy();env.setdefault('DBUS_SESSION_BUS_ADDRESS',f'unix:path=/run/user/{os.getuid()}/bus')
+        result=subprocess.run(['gio','set',str(target),'metadata::trusted','true'],env=env,capture_output=True,text=True)
+        if result.returncode:print('Vertrauensmarkierung noch ausstehend: '+str(target),file=sys.stderr)
+    print('Desktop-Starter eingerichtet: '+str(desktop))
+
+if __name__=='__main__':
+    try:setup()
+    except Exception as error:
+        message='ipSnoop: Desktop-Einrichtung fehlgeschlagen: '+str(error)
+        print(message,file=sys.stderr)
+        subprocess.run(['notify-send','ipSnoop',message],check=False)
+        raise SystemExit(1)

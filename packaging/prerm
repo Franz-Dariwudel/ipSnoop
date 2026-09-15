@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+if [ "$1" = remove ] || [ "$1" = deconfigure ]; then
+    # Bereinigung mit den Rechten des jeweiligen Benutzers ausführen.
+    # Ein manipuliertes Benutzerjournal erhält dadurch keine Root-Rechte.
+    getent passwd | while IFS=: read -r user pass uid gid gecos home shell; do
+        if [ -f "$home/.local/share/ipsnoop/.installed-files.json" ]; then
+            runuser -u "$user" -- /usr/bin/python3 -I /usr/lib/ipsnoop/data-cleanup
+        fi
+    done
+    if [ -f /var/lib/ipsnoop/desktop-files ]; then
+        while IFS= read -r target; do
+            case "$target" in
+                /*/ipsnoop.desktop|/*/ipsnoop-admin.desktop)
+                    name=$(basename "$target")
+                    if cmp -s "$target" "/usr/share/applications/$name"; then rm -f -- "$target"; fi;;
+            esac
+        done < /var/lib/ipsnoop/desktop-files
+        rm -f /var/lib/ipsnoop/desktop-files
+    fi
+    rmdir /var/lib/ipsnoop 2>/dev/null || true
+fi

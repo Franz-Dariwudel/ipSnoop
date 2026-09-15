@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ipSnoop
+Comment=Lokale Netzwerkdiagnose
+Exec=/usr/bin/ipsnoop
+Icon=ipsnoop
+Terminal=false
+Categories=System;Monitor;Network;
+StartupNotify=true

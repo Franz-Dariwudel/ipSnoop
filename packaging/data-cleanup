@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+# SPDX-License-Identifier: GPL-3.0-only
+"""Als jeweiliger Benutzer ausschließlich journalisierte Programmdaten entfernen."""
+import json
+from pathlib import Path
+
+root=Path.home()/'.local/share/ipsnoop'
+if root.is_symlink():raise SystemExit('Verlinkter Datenordner bleibt erhalten: '+str(root))
+desktop_journal=root/'.desktop-starters.json'
+if desktop_journal.is_file() and not desktop_journal.is_symlink():
+    for item in json.loads(desktop_journal.read_text()):
+        target=Path(item)
+        if not target.is_absolute() or target.name not in ('ipsnoop.desktop','ipsnoop-admin.desktop'):
+            raise SystemExit('Ungültiger Desktop-Journalpfad')
+        target.unlink(missing_ok=True)
+    desktop_journal.unlink()
+journal=root/'.installed-files.json'
+directories=[]
+if journal.is_file() and not journal.is_symlink():
+    records=json.loads(journal.read_text())
+    if not isinstance(records,dict):raise SystemExit('Ungültiges ipSnoop-Dateijournal')
+    directories=records['directories']
+    if any(name not in ('','config','logs','languages','help') for name in directories):raise SystemExit('Ungültiges Verzeichnisjournal')
+    for item in records['files']:
+        path=Path(item)
+        if len(path.parts)!=2 or path.parts[0] not in ('config','logs','languages','help') or '..' in path.parts:
+            raise SystemExit('Ungültiger ipSnoop-Journalpfad')
+        target=root/path
+        if target.parent.is_symlink():raise SystemExit('Verlinkter Unterordner: '+str(target.parent))
+        target.unlink(missing_ok=True)
+    journal.unlink()
+for name in sorted(directories,key=len,reverse=True):
+    folder=root/name
+    if folder.is_dir() and not folder.is_symlink() and not any(folder.iterdir()):folder.rmdir()
+

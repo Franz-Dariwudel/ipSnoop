@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN" "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>Josef Lehner</vendor>
+  <action id="eu.dogtruck.ipsnoop.admin">
+    <description>ipSnoop als Administrator starten</description>
+    <message>Administratorrechte für die Netzwerkdiagnose bestätigen</message>
+    <icon_name>ipsnoop-admin</icon_name>
+    <defaults><allow_any>no</allow_any><allow_inactive>no</allow_inactive><allow_active>auth_admin</allow_active></defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/lib/ipsnoop/admin-launch</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+</policyconfig>

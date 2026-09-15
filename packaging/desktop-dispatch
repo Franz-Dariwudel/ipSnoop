@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+# SPDX-License-Identifier: GPL-3.0-only
+"""Aktive grafische Sitzung erkennen; bei Unklarheit XDG-Autostart verwenden."""
+import os
+import pwd
+import subprocess
+
+def users():
+    explicit=os.environ.get('SUDO_UID') or os.environ.get('PKEXEC_UID')
+    if explicit and explicit.isdigit() and int(explicit)>0:return {int(explicit)}
+    found=set()
+    try:
+        sessions=subprocess.check_output(['loginctl','list-sessions','--no-legend'],text=True)
+        for line in sessions.splitlines():
+            session=line.split()[0]
+            props=subprocess.check_output(['loginctl','show-session',session,'-p','User','-p','Type','-p','Active'],text=True)
+            data=dict(row.split('=',1) for row in props.splitlines() if '=' in row)
+            if data.get('Type') in ('x11','wayland') and data.get('Active')=='yes' and int(data.get('User','0'))>0:
+                found.add(int(data['User']))
+    except (OSError,ValueError,subprocess.CalledProcessError):pass
+    return found if len(found)==1 else set()
+
+if __name__=='__main__':
+    targets=users()
+    if not targets:print('ipSnoop: Desktop-Starter werden bei der nächsten grafischen Anmeldung eingerichtet.')
+    for uid in targets:
+        user=pwd.getpwuid(uid).pw_name
+        subprocess.run(['runuser','-u',user,'--','/usr/bin/python3','-I','-B','/usr/lib/ipsnoop/desktop-setup'],check=True)

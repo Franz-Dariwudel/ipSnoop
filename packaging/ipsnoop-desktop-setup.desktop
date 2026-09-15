@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=ipSnoop Desktop-Starter einrichten
+Exec=/usr/bin/python3 -I -B /usr/lib/ipsnoop/desktop-setup
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=3

@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+if [ "$1" = configure ]; then
+    /usr/bin/python3 -I -B -c 'import sys;sys.path.insert(0,"/usr/share/ipsnoop");from ipsnoop import prepare_data;prepare_data()'
+    /usr/bin/python3 -I -B /usr/lib/ipsnoop/desktop-dispatch
+fi
