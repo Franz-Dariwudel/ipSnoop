@@ -55,6 +55,8 @@ class Window(Gtk.ApplicationWindow):
         label.set_valign(Gtk.Align.START);return label
 
     def build(self):
+        # Die arabische Oberfläche einschließlich Dialogen folgt ihrer Schreibrichtung.
+        Gtk.Widget.set_default_direction(Gtk.TextDirection.RTL if self.tr.language=='ar' else Gtk.TextDirection.LTR)
         t=self.tr;outer=Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=10);self.set_child(outer)
         menu=Gio.Menu();help_menu=Gio.Menu()
         for key,items in [('file',[('quit',self.close)]),('edit',[('settings',self.settings_dialog)]),('help',[('help_open',self.show_help),('show_logs',self.show_logs),('about',self.about),('info',self.info)])]:

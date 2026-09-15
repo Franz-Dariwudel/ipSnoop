@@ -21,8 +21,10 @@ def main():
         data=Scanner().scan();print(json.dumps(data,ensure_ascii=False,indent=2))
         return 1 if not data['adapters'] else 0
     if args.check:
-        errors=Translator().errors.copy()
-        for code in ('de','en'):
+        translator=Translator();errors=translator.errors.copy()
+        # Auch nachgelieferte Sprach- und Hilfedateien vollständig prüfen.
+        codes={'de','en'}|set(translator.catalogs)|{p.stem for p in (ROOT/'help').glob('*.html')}
+        for code in sorted(codes):
             try:
                 if '<html' not in (ROOT/'help'/(code+'.html')).read_text().lower():raise ValueError()
             except (OSError,ValueError,UnicodeError):errors.append('IS105')
